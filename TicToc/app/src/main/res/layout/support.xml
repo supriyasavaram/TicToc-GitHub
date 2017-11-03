@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9C6CB">
+
+    <!--<ImageView
+                android:layout_width="240dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="16dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="20dp"/>-->
+    <!--android:src="@drawable/splash"-->                        <!--insert pic here if needed-->
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:id="@+id/textView2"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/support"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:textColor="#4a4a4a"/>
+
+    <Button
+        android:id="@+id/service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Terms of Service"
+        android:textColor="#000000"
+        android:textAllCaps="false"
+        android:padding="16dp"
+        android:clickable="true"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
+        android:layout_marginTop="39dp"
+        android:textSize="18sp"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

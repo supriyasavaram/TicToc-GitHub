@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_menu_calendar"
+            android:title="Calendar" />
+        <item
+            android:id="@+id/nav_homework"
+            android:icon="@drawable/ic_menu_homework"
+            android:title="Homework" />
+        <item
+            android:id="@+id/nav_tags"
+            android:icon="@drawable/ic_menu_tag"
+            android:title="Tags" />
+        <item
+            android:id="@+id/nav_log"
+            android:icon="@drawable/ic_menu_log"
+            android:title="Activity Log" />
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_support"
+            android:icon="@drawable/ic_menu_support"
+            android:title="Support" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="Settings"/>
+    </group>
+
+</menu>
