@@ -42,7 +42,8 @@
                 android:textColor="#fff"
                 android:maxLines="1"
                 android:drawableLeft="@drawable/ic_person"
-                android:layout_marginTop="70dp"/>
+                android:layout_marginTop="70dp"
+                android:imeOptions="actionDone"/>
 
             <View
                 android:layout_width="match_parent"
@@ -63,7 +64,8 @@
                 android:textColor="#fff"
                 android:maxLines="1"
                 android:drawableLeft="@drawable/ic_lock"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                android:imeOptions="actionDone"/>
 
             <View
                 android:layout_width="match_parent"
