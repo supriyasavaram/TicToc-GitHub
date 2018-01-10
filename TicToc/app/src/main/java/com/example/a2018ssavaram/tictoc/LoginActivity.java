@@ -31,6 +31,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -44,14 +45,32 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    EditText usernameText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        usernameText = (EditText) findViewById(R.id.username);
-        // Set up the login form.
+        final EditText mUser = (EditText) findViewById(R.id.username);
+        final EditText mPass = (EditText) findViewById(R.id.password);
+        final Button mLogin = (Button) findViewById(R.id.login);
+        final Button mRegister = (Button) findViewById(R.id.register);
+        //final TextView mForgot = (TextView) findViewById(R.id.forgot);
+        final CheckBox mRemember = (CheckBox) findViewById(R.id.remember);
+
+        /*mForgot.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+            }
+        });*/
+
+        mRegister.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                LoginActivity.this.startActivity(registerIntent);
+            }
+        });
     }
 }
 
