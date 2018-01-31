@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -34,6 +35,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,9 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
+    //private SharedPreferences loginPreferences;
+    //private SharedPreferences.Editor loginPrefsEditor;
+    private Boolean saveLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,17 @@ public class LoginActivity extends AppCompatActivity {
         final Button mRegister = (Button) findViewById(R.id.register);
         //final TextView mForgot = (TextView) findViewById(R.id.forgot);
         final CheckBox mRemember = (CheckBox) findViewById(R.id.remember);
+        //loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        //loginPrefsEditor = loginPreferences.edit();
+
+        mRemember.setChecked(false);
+
+        /*saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin == true) {
+            mUser.setText(loginPreferences.getString("username", ""));
+            mPass.setText(loginPreferences.getString("password", ""));
+            mRemember.setChecked(true);
+        }*/
 
         /*mForgot.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -67,10 +83,53 @@ public class LoginActivity extends AppCompatActivity {
         mRegister.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*loginPrefsEditor.clear();
+                loginPrefsEditor.commit();
+                loginPrefsEditor.putBoolean("saveLogin", false);
+                mUser.setText(loginPreferences.getString("username", ""));
+                mPass.setText(loginPreferences.getString("password", ""));
+                mRemember.setChecked(false);
+                saveLogin = false;*/
                 Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 LoginActivity.this.startActivity(registerIntent);
             }
         });
+
+        mLogin.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkIfEmpty(mUser) && checkIfEmpty(mPass)){
+                    if (mRemember.isChecked()) {
+                        /*loginPrefsEditor.putBoolean("saveLogin", true);
+                        loginPrefsEditor.putString("username", mUser.getText().toString());
+                        loginPrefsEditor.putString("password", mPass.getText().toString());
+                        loginPrefsEditor.commit();*/
+                    } else {
+                        /*loginPrefsEditor.clear();
+                        loginPrefsEditor.commit();
+                        loginPrefsEditor.putBoolean("saveLogin", false);
+                        saveLogin = false;*/
+                    }
+                    //check if password matches the one for that username in database
+                    
+                    /*else{
+                        Intent mainIntent =  new Intent(LoginActivity.this, MainActivity.class);
+                        LoginActivity.this.startActivity(mainIntent);
+                        LoginActivity.this.finish();
+                    }*/
+                }
+
+            }
+        });
+    }
+
+    public boolean checkIfEmpty(EditText x){
+        String input = x.getText().toString();
+        if (input.matches("")) {
+            Toast.makeText(this, "Enter all fields.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
 

@@ -26,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText mPass = (EditText) findViewById(R.id.newpassword);
         final EditText mConfirmPass = (EditText) findViewById(R.id.confirmpass);
         final Button mRegister = (Button) findViewById(R.id.newbutton);
+        final Button mBack = (Button) findViewById(R.id.back);
 
         mPass.setTypeface(Typeface.DEFAULT);
         mPass.setTransformationMethod(new PasswordTransformationMethod());
@@ -45,6 +46,13 @@ public class RegisterActivity extends AppCompatActivity {
                          finish();
                      }
                 }
+            }
+        });
+
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
