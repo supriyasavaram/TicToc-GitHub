@@ -32,4 +32,16 @@
         We can terminate your account, disable features and/or services and/or remove content you entered on TicToc applications or services.\n
         TicToc collects de-identified data about our users as described in the privacy policy.\n
         TicToc reserves the right to terminate the TicToc applications and services at any time. We obviously don\'t want that to happen, but if it should then we will notify users via updates with an explanation.\n</string>
+
+    <!-- Strings related to calendar -->
+    <string name="current_date">February, 2018</string>
+    <string name="add_event">ADD CALENDAR EVENT</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thu">THU</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="last_date">30</string>
 </resources>
