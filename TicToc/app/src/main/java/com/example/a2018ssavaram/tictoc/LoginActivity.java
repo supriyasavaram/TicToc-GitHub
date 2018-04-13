@@ -3,6 +3,7 @@ package com.example.a2018ssavaram.tictoc;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -37,6 +38,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,11 +61,14 @@ public class LoginActivity extends AppCompatActivity {
     //private SharedPreferences loginPreferences;
     //private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
+    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        requestQueue = Volley.newRequestQueue(LoginActivity.this);//Creating the RequestQueue
 
         final EditText mUser = (EditText) findViewById(R.id.username);
         final EditText mPass = (EditText) findViewById(R.id.password);
@@ -99,17 +114,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(checkIfEmpty(mUser) && checkIfEmpty(mPass)){
-                    if (mRemember.isChecked()) {
+                    //if (mRemember.isChecked()) {
                         /*loginPrefsEditor.putBoolean("saveLogin", true);
                         loginPrefsEditor.putString("username", mUser.getText().toString());
                         loginPrefsEditor.putString("password", mPass.getText().toString());
                         loginPrefsEditor.commit();*/
-                    } else {
+                    //} else {
                         /*loginPrefsEditor.clear();
                         loginPrefsEditor.commit();
                         loginPrefsEditor.putBoolean("saveLogin", false);
                         saveLogin = false;*/
-                    }
+                    //}
                     //check if password matches the one for that username in database
                     
                     /*else{
@@ -117,8 +132,52 @@ public class LoginActivity extends AppCompatActivity {
                         LoginActivity.this.startActivity(mainIntent);
                         LoginActivity.this.finish();
                     }*/
-                }
 
+                    final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+                    progressDialog.setTitle("Please Wait");
+                    progressDialog.setMessage("Logging You In");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                    LoginRequest loginRequest = new LoginRequest(mUser.getText().toString(), mPass.getText().toString(), new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("Login Response", response);
+                            progressDialog.dismiss();
+                            // Response from the server is in the form if a JSON, so we need a JSON Object
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                if (jsonObject.getBoolean("success")) {
+                                    Intent loginSuccess = new Intent(LoginActivity.this, MainActivity.class);
+                                    //Passing all received data from server to next activity
+                                    loginSuccess.putExtra("name", jsonObject.getString("name"));
+                                    startActivity(loginSuccess);
+                                    finish();
+                                } else {
+                                    if(jsonObject.getString("status").equals("INVALID"))
+                                        Toast.makeText(LoginActivity.this, "User Not Found", Toast.LENGTH_SHORT).show();
+                                    else{
+                                        Toast.makeText(LoginActivity.this, "Passwords Don't Match", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(LoginActivity.this, "Bad Response From Server", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            progressDialog.dismiss();
+                            if (error instanceof ServerError)
+                                Toast.makeText(LoginActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                            else if (error instanceof TimeoutError)
+                                Toast.makeText(LoginActivity.this, "Connection Timed Out", Toast.LENGTH_SHORT).show();
+                            else if (error instanceof NetworkError)
+                                Toast.makeText(LoginActivity.this, "Bad Network Connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    requestQueue.add(loginRequest);
+                }
             }
         });
     }
