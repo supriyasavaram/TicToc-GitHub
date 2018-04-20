@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         mLogin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkIfEmpty(mUser) && checkIfEmpty(mPass)){
+                if(checkUser(mUser) && checkPass(mPass)){
                     //if (mRemember.isChecked()) {
                         /*loginPrefsEditor.putBoolean("saveLogin", true);
                         loginPrefsEditor.putString("username", mUser.getText().toString());
@@ -133,12 +133,15 @@ public class LoginActivity extends AppCompatActivity {
                         LoginActivity.this.finish();
                     }*/
 
+                    String user = getText(mUser);
+                    String pass = getText(mPass);
+
                     final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
                     progressDialog.setTitle("Please Wait");
                     progressDialog.setMessage("Logging You In");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
-                    LoginRequest loginRequest = new LoginRequest(mUser.getText().toString(), mPass.getText().toString(), new Response.Listener<String>() {
+                    LoginRequest loginRequest = new LoginRequest(user, pass, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             Log.i("Login Response", response);
@@ -182,12 +185,39 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public boolean checkIfEmpty(EditText x){
+    public String getText(EditText x){
+        return x.getText().toString();
+    }
+
+    public boolean checkUser(EditText x){
         String input = x.getText().toString();
-        if (input.matches("")) {
-            Toast.makeText(this, "Enter all fields.", Toast.LENGTH_SHORT).show();
+        if(input.equals("")) {
+            x.setError("Enter a Username");
+            return false;
+        } else if(input.length() > 20) {
+            x.setError("Maximum 20 Characters");
+            return false;
+        } else if(input.length() < 6) {
+            x.setError("Minimum 6 Characters");
             return false;
         }
+        x.setError(null);
+        return true;
+    }
+
+    public boolean checkPass(EditText x){
+        String input = x.getText().toString();
+        if(input.equals("")) {
+            x.setError("Enter Your Password");
+            return false;
+        } else if(input.length() > 20) {
+            x.setError("Maximum 20 Characters");
+            return false;
+        } else if(input.length() < 8) {
+            x.setError("Minimum 8 Characters");
+            return false;
+        }
+        x.setError(null);
         return true;
     }
 }
