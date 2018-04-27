@@ -58,8 +58,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-    //private SharedPreferences loginPreferences;
-    //private SharedPreferences.Editor loginPrefsEditor;
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
     RequestQueue requestQueue;
 
@@ -76,17 +76,17 @@ public class LoginActivity extends AppCompatActivity {
         final Button mRegister = (Button) findViewById(R.id.register);
         //final TextView mForgot = (TextView) findViewById(R.id.forgot);
         final CheckBox mRemember = (CheckBox) findViewById(R.id.remember);
-        //loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
-        //loginPrefsEditor = loginPreferences.edit();
+        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
 
         mRemember.setChecked(false);
 
-        /*saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
         if (saveLogin == true) {
             mUser.setText(loginPreferences.getString("username", ""));
             mPass.setText(loginPreferences.getString("password", ""));
             mRemember.setChecked(true);
-        }*/
+        }
 
         /*mForgot.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -98,13 +98,13 @@ public class LoginActivity extends AppCompatActivity {
         mRegister.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*loginPrefsEditor.clear();
+                loginPrefsEditor.clear();
                 loginPrefsEditor.commit();
                 loginPrefsEditor.putBoolean("saveLogin", false);
                 mUser.setText(loginPreferences.getString("username", ""));
                 mPass.setText(loginPreferences.getString("password", ""));
                 mRemember.setChecked(false);
-                saveLogin = false;*/
+                saveLogin = false;
                 Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 LoginActivity.this.startActivity(registerIntent);
             }
@@ -114,27 +114,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(checkUser(mUser) && checkPass(mPass)){
-                    //if (mRemember.isChecked()) {
-                        /*loginPrefsEditor.putBoolean("saveLogin", true);
-                        loginPrefsEditor.putString("username", mUser.getText().toString());
-                        loginPrefsEditor.putString("password", mPass.getText().toString());
-                        loginPrefsEditor.commit();*/
-                    //} else {
-                        /*loginPrefsEditor.clear();
-                        loginPrefsEditor.commit();
-                        loginPrefsEditor.putBoolean("saveLogin", false);
-                        saveLogin = false;*/
-                    //}
-                    //check if password matches the one for that username in database
-                    
-                    /*else{
-                        Intent mainIntent =  new Intent(LoginActivity.this, MainActivity.class);
-                        LoginActivity.this.startActivity(mainIntent);
-                        LoginActivity.this.finish();
-                    }*/
-
                     String user = getText(mUser);
                     String pass = getText(mPass);
+
+                    if (mRemember.isChecked()) {
+                        loginPrefsEditor.putBoolean("saveLogin", true);
+                        loginPrefsEditor.putString("username", user);
+                        loginPrefsEditor.putString("password", pass);
+                        loginPrefsEditor.commit();
+                    } else {
+                        loginPrefsEditor.clear();
+                        loginPrefsEditor.commit();
+                        loginPrefsEditor.putBoolean("saveLogin", false);
+                        saveLogin = false;
+                    }
 
                     final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
                     progressDialog.setTitle("Please Wait");
@@ -157,9 +150,9 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     if(jsonObject.getString("status").equals("INVALID"))
-                                        Toast.makeText(LoginActivity.this, "User Not Found", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "User Not Found!", Toast.LENGTH_SHORT).show();
                                     else{
-                                        Toast.makeText(LoginActivity.this, "Passwords Don't Match", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "Passwords Don't Match!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             } catch (JSONException e) {

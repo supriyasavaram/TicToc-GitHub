@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterRequest extends StringRequest {
-    private static final String REGISTER_URL = "https://director.tjhsst.edu/site/1088/None/register.php";
+    private static final String REGISTER_URL = "https://user.tjhsst.edu/tictoc/register.php";
     private Map<String, String> parameters;
     public RegisterRequest(String name, String username, String password, Response.Listener<String> listener) {
         super(Method.POST, REGISTER_URL, listener, null);

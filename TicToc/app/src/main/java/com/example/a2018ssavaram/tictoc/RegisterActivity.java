@@ -69,8 +69,10 @@ public class RegisterActivity extends AppCompatActivity {
                             progress.dismiss();
                             try {
                                 if (new JSONObject(response).getBoolean("success")) {
-                                    Toast.makeText(RegisterActivity.this, "Account Successfully Created", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, "Account Successfully Created!", Toast.LENGTH_SHORT).show();
                                     finish();
+                                } else if (new JSONObject(response).getString("status").equals("USERNAME")){
+                                    Toast.makeText(RegisterActivity.this, "Username Is Already Taken. Please Try Again!", Toast.LENGTH_SHORT).show();
                                 } else
                                     Toast.makeText(RegisterActivity.this, "Something Has Happened. Please Try Again!", Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
@@ -79,11 +81,9 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
                     requestQueue.add(registerRequest);
-
                 }
             }
         });
-
 
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override

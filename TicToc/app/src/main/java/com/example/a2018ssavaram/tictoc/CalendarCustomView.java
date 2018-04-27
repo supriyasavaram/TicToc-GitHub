@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.a2018ssavaram.tictoc.database.DatabaseQuery;
+//import com.example.a2018ssavaram.tictoc.database.DatabaseQuery;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +37,7 @@ public class CalendarCustomView extends LinearLayout{
     private Calendar cal = Calendar.getInstance(Locale.ENGLISH);
     private Context context;
     private GridAdapter mAdapter;
-    private DatabaseQuery mQuery;
+    //private DatabaseQuery mQuery;
     public CalendarCustomView(Context context) {
         super(context);
     }
@@ -91,8 +91,8 @@ public class CalendarCustomView extends LinearLayout{
     }
     private void setUpCalendarAdapter(){
         List<Date> dayValueInCells = new ArrayList<Date>();
-        mQuery = new DatabaseQuery(context);
-        List<EventObjects> mEvents = mQuery.getAllFutureEvents();
+        //mQuery = new DatabaseQuery(context);
+        //List<EventObjects> mEvents = mQuery.getAllFutureEvents();
         Calendar mCal = (Calendar)cal.clone();
         mCal.set(Calendar.DAY_OF_MONTH, 1);
         int firstDayOfTheMonth = mCal.get(Calendar.DAY_OF_WEEK) - 1;
@@ -104,7 +104,7 @@ public class CalendarCustomView extends LinearLayout{
         Log.d(TAG, "Number of date " + dayValueInCells.size());
         String sDate = formatter.format(cal.getTime());
         currentDate.setText(sDate);
-        mAdapter = new GridAdapter(context, dayValueInCells, cal, mEvents);
+        //mAdapter = new GridAdapter(context, dayValueInCells, cal, mEvents);
         calendarGridView.setAdapter(mAdapter);
     }
 }

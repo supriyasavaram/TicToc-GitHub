@@ -24,7 +24,7 @@ public class Calendar extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        CalendarCustomView mView = (CalendarCustomView)findViewById(R.id.custom_calendar);
+        //CalendarCustomView mView = (CalendarCustomView)findViewById(R.id.custom_calendar);
         return inflater.inflate(R.layout.calendar, container, false);
     }
 

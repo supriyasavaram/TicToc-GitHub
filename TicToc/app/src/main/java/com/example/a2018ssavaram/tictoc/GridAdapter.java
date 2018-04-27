@@ -22,15 +22,15 @@ public class GridAdapter extends ArrayAdapter {
     private LayoutInflater mInflater;
     private List<Date> monthlyDates;
     private Calendar currentDate;
-    private List<EventObjects> allEvents;
-    public GridAdapter(Context context, List<Date> monthlyDates, Calendar currentDate, List<EventObjects> allEvents) {
+    //private List<EventObjects> allEvents;
+    public GridAdapter(Context context, List<Date> monthlyDates, Calendar currentDate)/*, List<EventObjects> allEvents)*/ {
         super(context, R.layout.single_cell_layout);
         this.monthlyDates = monthlyDates;
         this.currentDate = currentDate;
-        this.allEvents = allEvents;
+        //this.allEvents = allEvents;
         mInflater = LayoutInflater.from(context);
     }
-    @NonNull
+    /*@NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Date mDate = monthlyDates.get(position);
@@ -77,5 +77,5 @@ public class GridAdapter extends ArrayAdapter {
     @Override
     public int getPosition(Object item) {
         return monthlyDates.indexOf(item);
-    }
+    }*/
 }
