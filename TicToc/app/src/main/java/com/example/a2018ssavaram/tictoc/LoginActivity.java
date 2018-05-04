@@ -178,6 +178,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed(); commented this line in order to disable back press
+        //Write your code here
+    }
+
     public String getText(EditText x){
         return x.getText().toString();
     }
