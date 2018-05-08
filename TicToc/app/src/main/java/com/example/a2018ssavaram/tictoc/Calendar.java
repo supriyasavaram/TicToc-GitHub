@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 public class Calendar extends Fragment {
 
+    private View rootView;
     private static final String TAG = Calendar.class.getSimpleName();
 
     @Override
@@ -24,8 +25,10 @@ public class Calendar extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //CalendarCustomView mView = (CalendarCustomView)findViewById(R.id.custom_calendar);
-        return inflater.inflate(R.layout.calendar, container, false);
+        rootView = inflater.inflate(R.layout.calendar, container, false);
+        CalendarCustomView mView = (CalendarCustomView) rootView.findViewById(R.id.custom_calendar);
+
+        return rootView;
     }
 
     @Override

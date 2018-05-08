@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.a2018ssavaram.tictoc.Database.DatabaseQuery;
+import com.example.a2018ssavaram.tictoc.DatabaseQuery;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,7 +57,7 @@ public class CalendarCustomView extends LinearLayout{
     }
     private void initializeUILayout(){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.calendar, this);
+        View view = inflater.inflate(R.layout.calendar_layout, this);
         previousButton = (ImageView)view.findViewById(R.id.previous_month);
         nextButton = (ImageView)view.findViewById(R.id.next_month);
         currentDate = (TextView)view.findViewById(R.id.display_current_date);
@@ -105,7 +105,7 @@ public class CalendarCustomView extends LinearLayout{
         Log.d(TAG, "Number of date " + dayValueInCells.size());
         String sDate = formatter.format(cal.getTime());
         currentDate.setText(sDate);
-        //mAdapter = new GridAdapter(context, dayValueInCells, cal, mEvents);
+        mAdapter = new GridAdapter(context, dayValueInCells, cal, mEvents);
         calendarGridView.setAdapter(mAdapter);
     }
 }
