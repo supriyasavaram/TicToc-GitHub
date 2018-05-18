@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -76,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button mRegister = (Button) findViewById(R.id.register);
         //final TextView mForgot = (TextView) findViewById(R.id.forgot);
         final CheckBox mRemember = (CheckBox) findViewById(R.id.remember);
-        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationContextProvider.getContext());
         loginPrefsEditor = loginPreferences.edit();
 
         mRemember.setChecked(false);
@@ -146,6 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent loginSuccess = new Intent(LoginActivity.this, MainActivity.class);
                                     //Passing all received data from server to next activity
                                     loginSuccess.putExtra("name", jsonObject.getString("name"));
+                                    loginSuccess.putExtra("username", jsonObject.getString("username"));
                                     startActivity(loginSuccess);
                                     finish();
                                 } else {

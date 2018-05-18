@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <!--android:roundIcon="@mipmap/ic_launcher_round"-->
-    <application
+    <application android:name=".ApplicationContextProvider"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"

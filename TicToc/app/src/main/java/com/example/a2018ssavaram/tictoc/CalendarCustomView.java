@@ -5,6 +5,8 @@ package com.example.a2018ssavaram.tictoc;
  */
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +18,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.NetworkError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.example.a2018ssavaram.tictoc.DatabaseQuery;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,6 +53,10 @@ public class CalendarCustomView extends LinearLayout{
     private Context context;
     private GridAdapter mAdapter;
     private DatabaseQuery mQuery;
+    private String message;
+    private String reminder;
+    private String end;
+
     public CalendarCustomView(Context context) {
         super(context);
     }
@@ -82,6 +100,45 @@ public class CalendarCustomView extends LinearLayout{
             }
         });
     }
+    private void setAddEventButtonClickEvent(){
+        //NEED TO ADD THE POPUP FOR ADDING NEW EVENT
+        message = "";
+        reminder = "";
+        end = "";
+        addEventButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestQueue requestQueue = Volley.newRequestQueue(ApplicationContextProvider.getContext());//Creating the RequestQueue
+                SharedPreferences loginPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationContextProvider.getContext());
+                String user = loginPreferences.getString("username", "");
+                CalendarRequest calendarReq = new CalendarRequest(user, "0", message, reminder, end, "new", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("Calendar Response", response);
+                        // Response from the server is in the form if a JSON, so we need a JSON Object
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(ApplicationContextProvider.getContext(), "Bad Response From Server", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof ServerError)
+                            Toast.makeText(ApplicationContextProvider.getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                        else if (error instanceof TimeoutError)
+                            Toast.makeText(ApplicationContextProvider.getContext(), "Connection Timed Out", Toast.LENGTH_SHORT).show();
+                        else if (error instanceof NetworkError)
+                            Toast.makeText(ApplicationContextProvider.getContext(), "Bad Network Connection", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                requestQueue.add(calendarReq);
+                setUpCalendarAdapter();
+            }
+        });
+    }
     private void setGridCellClickEvents(){
         calendarGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,7 +149,7 @@ public class CalendarCustomView extends LinearLayout{
     }
     private void setUpCalendarAdapter(){
         List<Date> dayValueInCells = new ArrayList<Date>();
-        mQuery = new DatabaseQuery(context);
+        mQuery = new DatabaseQuery();
         List<EventObjects> mEvents = mQuery.getAllFutureEvents();
         Calendar mCal = (Calendar)cal.clone();
         mCal.set(Calendar.DAY_OF_MONTH, 1);

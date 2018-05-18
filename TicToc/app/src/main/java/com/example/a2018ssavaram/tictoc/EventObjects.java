@@ -5,6 +5,7 @@ package com.example.a2018ssavaram.tictoc;
  */
 
 import java.util.Date;
+
 public class EventObjects {
     private int id;
     private String message;
