@@ -28,7 +28,6 @@ public class Calendar extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.calendar, container, false);
         CalendarCustomView mView = (CalendarCustomView) rootView.findViewById(R.id.custom_calendar);
-        String user = getArguments().getString("username");
         return rootView;
     }
 

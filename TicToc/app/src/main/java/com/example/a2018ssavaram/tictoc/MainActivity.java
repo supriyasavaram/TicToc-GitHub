@@ -82,19 +82,16 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_calendar:
                 fragment = new Calendar();
-                Bundle bdl = new Bundle(2);
-                bdl.putString("username", getIntent().getStringExtra("username"));
-                fragment.setArguments(bdl);
                 break;
             case R.id.nav_homework:
                 fragment = new Homework();
                 break;
-            case R.id.nav_tags:
+            /*case R.id.nav_tags:
                 fragment = new Tags();
                 break;
             case R.id.nav_log:
                 fragment = new ActivityLog();
-                break;
+                break;*/
             case R.id.nav_support:
                 fragment = new Support();
                 break;

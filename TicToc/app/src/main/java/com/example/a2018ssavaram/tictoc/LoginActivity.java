@@ -147,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent loginSuccess = new Intent(LoginActivity.this, MainActivity.class);
                                     //Passing all received data from server to next activity
                                     loginSuccess.putExtra("name", jsonObject.getString("name"));
-                                    loginSuccess.putExtra("username", jsonObject.getString("username"));
                                     startActivity(loginSuccess);
                                     finish();
                                 } else {

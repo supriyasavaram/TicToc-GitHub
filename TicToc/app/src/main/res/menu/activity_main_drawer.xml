@@ -14,14 +14,14 @@
             android:id="@+id/nav_homework"
             android:icon="@drawable/ic_menu_homework"
             android:title="Homework" />
-        <item
+        <!---<item
             android:id="@+id/nav_tags"
             android:icon="@drawable/ic_menu_tag"
-            android:title="Tags" />
-        <item
+            android:title="Tags" />-->
+        <!---<item
             android:id="@+id/nav_log"
             android:icon="@drawable/ic_menu_log"
-            android:title="Activity Log" />
+            android:title="Activity Log" />-->
     </group>
 
     <group
