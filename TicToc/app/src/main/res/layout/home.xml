@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:padding="16dp"
+        android:src="@drawable/home"
+        android:layout_width="628dp"
+        android:layout_height="378dp"
+        android:layout_above="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:layout_centerHorizontal="true"
@@ -10,5 +21,5 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home" />
+        android:text="Welcome to TicToc!" />
 </RelativeLayout>

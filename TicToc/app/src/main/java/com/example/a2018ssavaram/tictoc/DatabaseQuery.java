@@ -58,12 +58,15 @@ public class DatabaseQuery{
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean("success")) {
                         int id = Integer.parseInt(jsonObject.getString("_id"));
-                        String message = jsonObject.getString("message");
-                        String startDate = jsonObject.getString("end");
-                        //convert start date to date object
-                        Date reminderDate = convertStringToDate(startDate);
-                        if(reminderDate.after(dateToday) || reminderDate.equals(dateToday)){
-                            events.add(new EventObjects(id, message, reminderDate));
+                        int count = jsonObject.getInt("counter");
+                        for(int x = 0; x <= count; x++) {
+                            String message = jsonObject.getJSONArray("message").getString(x);
+                            String startDate = jsonObject.getJSONArray("end").getString(x);
+                            //convert start date to date object
+                            Date reminderDate = convertStringToDate(startDate);
+                            if (reminderDate.after(dateToday) || reminderDate.equals(dateToday)) {
+                                events.add(new EventObjects(id, message, reminderDate));
+                            }
                         }
                     }
                 } catch (JSONException e) {

@@ -129,7 +129,8 @@ public class LoginActivity extends AppCompatActivity {
                         loginPrefsEditor.putBoolean("saveLogin", false);
                         saveLogin = false;
                     }
-
+                    loginPrefsEditor.putString("username", user);
+                    loginPrefsEditor.commit();
                     final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
                     progressDialog.setTitle("Please Wait");
                     progressDialog.setMessage("Logging You In");

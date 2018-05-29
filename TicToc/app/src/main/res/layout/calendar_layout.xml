@@ -44,6 +44,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="12sp"
+        android:clickable="true"
         android:text="@string/add_event"
         android:gravity="center"/>
     <LinearLayout

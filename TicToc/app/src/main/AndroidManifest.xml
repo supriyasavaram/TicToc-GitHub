@@ -32,6 +32,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".AddEventDialog"
+            android:label="Add Event"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/MyAlertDialogStyle" />
+        <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

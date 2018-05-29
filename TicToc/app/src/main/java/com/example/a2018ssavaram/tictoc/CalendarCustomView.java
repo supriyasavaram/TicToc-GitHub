@@ -4,9 +4,13 @@ package com.example.a2018ssavaram.tictoc;
  * Created by 2018ssavaram on 2/14/2018.
  */
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,7 +43,9 @@ import java.util.EventObject;
 import java.util.List;
 import java.util.Locale;
 
-public class CalendarCustomView extends LinearLayout{
+import static android.app.Activity.RESULT_OK;
+
+public class CalendarCustomView extends LinearLayout { //implements AddEventDialog.AddEventDialogListener{
 
     private static final String TAG = CalendarCustomView.class.getSimpleName();
     private ImageView previousButton, nextButton;
@@ -50,12 +56,14 @@ public class CalendarCustomView extends LinearLayout{
     private int month, year;
     private SimpleDateFormat formatter = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
     private Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-    private Context context;
+    private static Context context;
     private GridAdapter mAdapter;
     private DatabaseQuery mQuery;
     private String message;
     private String reminder;
     private String end;
+    private SharedPreferences addEventPreferences;
+    private SharedPreferences.Editor addEventEditor;
 
     public CalendarCustomView(Context context) {
         super(context);
@@ -67,6 +75,7 @@ public class CalendarCustomView extends LinearLayout{
         setUpCalendarAdapter();
         setPreviousButtonClickEvent();
         setNextButtonClickEvent();
+        setAddEventButtonClickEvent();
         setGridCellClickEvents();
         Log.d(TAG, "I need to call this method");
     }
@@ -101,40 +110,49 @@ public class CalendarCustomView extends LinearLayout{
         });
     }
     private void setAddEventButtonClickEvent(){
-        //NEED TO ADD THE POPUP FOR ADDING NEW EVENT
+        addEventPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationContextProvider.getContext());
+        addEventEditor = addEventPreferences.edit();
         message = "";
         reminder = "";
-        end = "";
+        end = ""; //date in d-MM-yyyy format
         addEventButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestQueue requestQueue = Volley.newRequestQueue(ApplicationContextProvider.getContext());//Creating the RequestQueue
-                SharedPreferences loginPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationContextProvider.getContext());
-                String user = loginPreferences.getString("username", "");
-                CalendarRequest calendarReq = new CalendarRequest(user, "0", message, reminder, end, "new", new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("Calendar Response", response);
-                        // Response from the server is in the form if a JSON, so we need a JSON Object
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(ApplicationContextProvider.getContext(), "Bad Response From Server", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Trying to open dialog");
+                Intent i = new Intent(context, AddEventDialog.class);
+                context.startActivity(i);
+                message = addEventPreferences.getString("username", "");
+                end = addEventPreferences.getString("date", "");
+
+                if(!message.equals("") && !end.equals("")) {
+                    RequestQueue requestQueue = Volley.newRequestQueue(ApplicationContextProvider.getContext());//Creating the RequestQueue
+                    SharedPreferences loginPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationContextProvider.getContext());
+                    String user = loginPreferences.getString("username", "");
+                    CalendarRequest calendarReq = new CalendarRequest(user, "0", message, "none", end, "new", new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("Calendar Response", response);
+                            // Response from the server is in the form if a JSON, so we need a JSON Object
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(ApplicationContextProvider.getContext(), "Bad Response From Server", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof ServerError)
-                            Toast.makeText(ApplicationContextProvider.getContext(), "Server Error", Toast.LENGTH_SHORT).show();
-                        else if (error instanceof TimeoutError)
-                            Toast.makeText(ApplicationContextProvider.getContext(), "Connection Timed Out", Toast.LENGTH_SHORT).show();
-                        else if (error instanceof NetworkError)
-                            Toast.makeText(ApplicationContextProvider.getContext(), "Bad Network Connection", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                requestQueue.add(calendarReq);
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error instanceof ServerError)
+                                Toast.makeText(ApplicationContextProvider.getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                            else if (error instanceof TimeoutError)
+                                Toast.makeText(ApplicationContextProvider.getContext(), "Connection Timed Out", Toast.LENGTH_SHORT).show();
+                            else if (error instanceof NetworkError)
+                                Toast.makeText(ApplicationContextProvider.getContext(), "Bad Network Connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    requestQueue.add(calendarReq);
+                }
                 setUpCalendarAdapter();
             }
         });
@@ -143,7 +161,7 @@ public class CalendarCustomView extends LinearLayout{
         calendarGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context, "Clicked " + position, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Clicked " + position, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -165,4 +183,16 @@ public class CalendarCustomView extends LinearLayout{
         mAdapter = new GridAdapter(context, dayValueInCells, cal, mEvents);
         calendarGridView.setAdapter(mAdapter);
     }
+    /*public void openDialog(){
+        AddEventDialog pop = new AddEventDialog();
+        Log.i(TAG, "Trying to open dialog");
+        FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+        pop.show(fragmentManager, "Add Event");
+    }
+
+    @Override
+    public void applyTexts(String m, String d){
+        message = m;
+        end = d;
+    }*/
 }

@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:hint="Description" />
+
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="d-MM-yyyy"
+        android:layout_below="@+id/message"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        android:id="@+id/cancel_btn_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ok_btn_id"
+        android:layout_alignBottom="@+id/ok_btn_id"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/ok_btn_id"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/ok_btn_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="92dp"
+        android:text="OK" />
+
+</RelativeLayout>
